@@ -57,7 +57,7 @@ I_NaT = g_NaT*m_T_inf*h_T*(V-E_Na);
 I_h = g_h*s*(V-E_h);
 
 % I = 1000*(1+square((t-10)/(2*pi),20));
-tumb = 30;
+tumb = 10;
 I = 100*stepfun(t,tumb)*sin((t-tumb)^3);
 % I = 0;
 % I = 2*(t-tumb)*stepfun(t,tumb);
