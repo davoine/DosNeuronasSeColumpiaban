@@ -4,7 +4,7 @@
 % J Comput Neurosci (2008) 24:95–104
 
 function dydt = modeloLiuetal2008(t,y)
-
+global frecuencia i_amp_max;
 % Variables de estado
 V = y(1);
 n_DRK = y(2);
@@ -57,11 +57,13 @@ I_NaT = g_NaT*m_T_inf*h_T*(V-E_Na);
 I_h = g_h*s*(V-E_h);
 
 % I = 1000*(1+square((t-10)/(2*pi),20));
-tumb = 10;
-I = 100*stepfun(t,tumb)*sin((t-tumb)^3);
+% tumb = 10;
+% I = 100*stepfun(t,tumb)*sin((t-tumb)^3);
 % I = 0;
 % I = 2*(t-tumb)*stepfun(t,tumb);
 % I = 600*stepfun(t,tumb);
+tumb = 5;
+I = i_amp_max*stepfun(t,tumb)*sin(2*pi*frecuencia*(t-tumb));
 
 % Ecuaciones diferenciales
 dydt(1) = (1/C)*(I - I_L - I_DRK - I_4AP - I_NaP - I_NaT - I_h);

@@ -1,19 +1,22 @@
-clear all
-close all
-clc
+function [impedancia] = Liuetal2008again(frec, tf, i_max,pasomax)
+%% Resolucion de la ecuacion diferencial
 
-tfinal = 20;
+global frecuencia i_amp_max;
+frecuencia = frec;
+i_amp_max = i_max;
+tfinal = tf;
 tspan = [0 tfinal];
+
 % y = [V, n_DRK, n_4AP, h_t, s]
 % Condiciones iniciales, obtenidas simulando I = 0, gNaP = gNaT = 0
 % y0 = [-68.9197 0.0066 0.0013 0.8766 0.0071];
 
 % Condiciones iniciales, obtenidas simulando I = 0, gNaP = gNaT = g_h = 0
-y0 = [-72.0579 0.0052 0.0006 0.9170 0.0084];
+% y0 = [-72.0579 0.0052 0.0006 0.9170 0.0084];
 
 % Condiciones iniciales, obtenidas simulando I = 0
-% y0 = [-65.3804 0.0086 0.0032 0.8118 0.0044];
-options = odeset('MaxStep',1e-4, 'AbsTol', [1e-6 1e-3 1e-3 1e-3 1e-3]);
+y0 = [-65.3804 0.0086 0.0032 0.8118 0.0044];
+options = odeset('MaxStep',pasomax, 'AbsTol', [1e-6 1e-3 1e-3 1e-3 1e-3]);
 [t, y] = ode45(@modeloLiuetal2008, tspan, y0, options);
 % [t, y] = ode45(@modeloLiuetal2008, tspan, y0);
 
@@ -23,7 +26,7 @@ n_DRK = y(:,2);
 n_4AP = y(:,3);
 h_T = y(:,4);
 s = y(:,5);
-% 
+
 % tumb = 100;
 % I = 100*stepfun(t,tumb).*sin((t-tumb).^3);
 % I = 2/10*(t-tumb).*stepfun(t,tumb);
@@ -99,3 +102,12 @@ hold off
 xlabel('tiempo (ms)')
 ylabel('corriente (pA)')
 legend('I_L','I_{NaT}','I_{NaP}','I_{4-AP}','I_{DRK}','I_{h}')
+
+% Calculamos la impedancia (amplitud maxima de voltaje
+% sobre amplitud maxima de corriente inyectada)
+inds = find(t>(tfinal-(2/frecuencia)));
+ind = inds(1);
+vmax = max(V(ind:length(V)));
+vmin = min(V(ind:length(V)));
+v_amp_max = abs(vmax - vmin);
+impedancia = v_amp_max/i_amp_max;
