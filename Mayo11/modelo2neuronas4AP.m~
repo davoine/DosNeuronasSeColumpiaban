@@ -1,9 +1,10 @@
-function [transferencia, y] = modelo2neuronas4AP(frec, tf, i_max, pasomax)
+function [transferencia] = modelo2neuronas4AP(frec, tf, i_max, pasomax, g_4AP_max)
 %% Resolucion de la ecuacion diferencial
 
-global frecuencia i_amp_max;
+global frecuencia i_amp_max g_4AP;
 frecuencia = frec;
 i_amp_max = i_max;
+g_4AP = g_4AP_max;
 tfinal = tf;
 tspan = [0 tfinal];
 
@@ -19,14 +20,14 @@ V2 = y(:,2);
 n_4AP_1 = y(:,3);
 n_4AP_2 = y(:,4);
 
-% figure(1)
-% plot(t,V1,'k')
-% hold on
-% plot(t,V2,'b')
-% hold off
-% xlabel('tiempo' )
-% ylabel('voltaje (mV)')
-% legend('V_1','V_2')
+figure(1)
+plot(t,V1,'k')
+hold on
+plot(t,V2,'b')
+hold off
+xlabel('tiempo' )
+ylabel('voltaje (mV)')
+legend('V_1','V_2')
 
 
 % Calculamos la impedancia (amplitud maxima de voltaje
