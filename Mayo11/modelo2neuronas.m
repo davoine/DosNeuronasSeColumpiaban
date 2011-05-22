@@ -15,7 +15,7 @@ C = 200; % C = 20e-3*g
 g_j = 2850; % g_j = 2850 pS
 g_1 = g;
 g_2 = g;
-V_reposo = -70; % en mV
+V_reposo = -30; % en mV
 E_K = -92; % en mV
 
 % Curvas
@@ -31,9 +31,9 @@ I_L1 = g_1*(V1-V_reposo);
 I_j = g_j*(V1-V2);
 I_L2 = g_1*(V2-V_reposo);
 
-tumb = 3;
+tumb = 4;
 I = i_amp_max*stepfun(t,tumb)*sin(2*pi*frecuencia*(t-tumb));
-% I = 0;
+% I = i_amp_max;
 % I = 2*(t-tumb)*stepfun(t,tumb);
 % I = 600000*stepfun(t,tumb);
 
