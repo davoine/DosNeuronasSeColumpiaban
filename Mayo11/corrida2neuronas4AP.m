@@ -3,7 +3,8 @@ close all
 clc
 n = 1;
 m = 1;
-g4AP = 5e5;
+
+g4AP = 1e7;
 for k = 1:1:10
     transferencia(n)=modelo2neuronas4AP(k,50,4e6,1e-2,g4AP);
     frecuencias(n) = k;
@@ -22,7 +23,6 @@ for k = 100:50:1000
     n = n + 1
 end
 
-frecuencias = frecuencias;
-
 figure(5)
-semilogx(frecuencias,transferencia);
+xlabel('frecuencia (Hz)')
+semilogx(frecuencias,transferencia)
