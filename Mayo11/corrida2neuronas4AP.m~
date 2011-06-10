@@ -2,52 +2,36 @@ clear all
 close all
 clc
 
-<<<<<<< HEAD
-g4AP = 1e7;
-for k = 1:1:10
-    transferencia(n)=modelo2neuronas4AP(k,50,4e6,1e-2,g4AP);
-=======
-g4AP = [0, 1e1, 1e2, 1e3, 1e4, 1e5, 1e6; % en pS
-for w = 1:10
-n = 1;
-g4AP = g4AParray(w);
-I_iny = 5e5; % en pA
-for k = 1:0.5:10
-    transferencia(n)=modelo2neuronas4AP(k,50,I_iny,1e-2,g4AP);
->>>>>>> 2c9e60a456db8215a4433d3aecf2f163b91d499c
-    frecuencias(n) = k;
-    n = n + 1
+% g4AParray = [0, 1e1, 1e2, 1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1e9]; % en pS
+% g4AParray = [0, 1e3, 1e5, 1e9]; % en pS
+g4AParray = 1e3;
+for w = 1:length(g4AParray)
+    n = 1;
+    g4AP = g4AParray(w);
+    I_iny = 10000; % en pA
+    for k = 1:2:10
+        transferencia(w,n)=modelo2neuronas4AP(k,50,I_iny,1e-2,g4AP);
+        frecuencias(w,n) = k;
+        n = n + 1;
+        disp('Frecuencia: ', k)
+    end
+
+    for k = 10:20:100
+        transferencia(w,n)=modelo2neuronas4AP(k,12,I_iny,1e-3,g4AP);
+        frecuencias(w,n) = k;
+        n = n + 1;
+        disp('Frecuencia: ', k)
+    end
+
+    for k = 100:100:600
+        transferencia(w,n)=modelo2neuronas4AP(k,8,I_iny,1e-4,g4AP);
+        frecuencias(w,n) = k;
+        n = n + 1;
+        disp('Frecuencia: ', k)
+    end
+
 end
+% figure(5)
+% semilogx(frecuencias,transferencia);
 
-for k = 10:5:100
-<<<<<<< HEAD
-    transferencia(n)=modelo2neuronas4AP(k,12,4e6,1e-3,g4AP);
-=======
-    transferencia(n)=modelo2neuronas4AP(k,12,I_iny,1e-3,g4AP);
->>>>>>> 2c9e60a456db8215a4433d3aecf2f163b91d499c
-    frecuencias(n) = k;
-    n = n + 1
-end
-
-for k = 100:50:1000
-<<<<<<< HEAD
-    transferencia(n)=modelo2neuronas4AP(k,8,4e6,1e-4,g4AP);
-=======
-    transferencia(n)=modelo2neuronas4AP(k,8,I_iny,1e-4,g4AP);
->>>>>>> 2c9e60a456db8215a4433d3aecf2f163b91d499c
-    frecuencias(n) = k;
-    n = n + 1
-end
-
-<<<<<<< HEAD
-figure(5)
-xlabel()
-semilogx(frecuencias,transferencia)
-=======
-
-figure(5)
-semilogx(frecuencias,transferencia);
-
-save frecuencias  transferencia 
-
->>>>>>> 2c9e60a456db8215a4433d3aecf2f163b91d499c
+save

@@ -1,4 +1,4 @@
-function [transferencia, y] = modelo2neuronas4AP(frec, tf, i_max, pasomax, g_4AP_max)
+function [transferencia] = modelo2neuronas4AP(frec, tf, i_max, pasomax, g_4AP_max)
 %% Resolucion de la ecuacion diferencial
 
 global frecuencia i_amp_max g_4AP;
@@ -9,7 +9,7 @@ tfinal = tf;
 tspan = [0 tfinal];
 
 % Condiciones iniciales, obtenidas simulando I = 0
-y0 = [-100 -100 0.091 0.091];
+y0 = [-50 -50 0.091 0.091];
 options = odeset('MaxStep',pasomax,'AbsTol', [1e-6 1e-6 1e-5 1e-5]);
 [t, y] = ode45(@modelo2neuronas, tspan, y0, options);
 % [t, y] = ode45(@modelo2neuronas, tspan, y0);
