@@ -1,5 +1,8 @@
 %% Calculo de impedancia teorica de una neurona
-% nullclineV 
+clear all
+close all
+clc
+
 global g_L C g_NaP g_4AP E_L E_Na E_K I
 
 % Parametros
@@ -8,12 +11,12 @@ global g_L C g_NaP g_4AP E_L E_Na E_K I
 % g_j = 2850; % g_j = 2850 pS
 
 % f = [0:1:10,20:10:100,200:100:1000];
-f = [0:0.1:10,11:1:300];
+f = [0:0.1:10,11:1:100,110:10:1000];
 w = 2*pi*f;
 
-I = 900;
+I = 20000;
 
-g_4APs = [0:10:100, 200:100:1e4];
+g_4APs = [0:10:100, 200:100:5e4];
 
 
 for cont = 1:length(g_4APs)
@@ -21,7 +24,7 @@ for cont = 1:length(g_4APs)
 g_4AP = g_4APs(cont);
 g_L = 1000;
 C = 20;
-g_NaP = 500;
+g_NaP = 5000;
 g_j = 285;
 g_1 = g_L;
 g_2 = g_L;
@@ -48,7 +51,14 @@ Z(cont,:) = 1./G;
 modZ(cont,:) = abs(Z(cont,:));
 
 end
+
+figure(1)
 surf(f,V_eq, modZ)
+set(gca,'xscale','log')
+set(gca,'zscale','log')
+xlabel('frecuencia (Hz)')
+ylabel('voltaje (mV)')
+title('Impedancia de una neurona')
 % modZ = abs(Z);
 % argZ = phase(Z);
 % figure(1)

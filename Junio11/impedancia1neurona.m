@@ -16,16 +16,15 @@ w = 2*pi*f;
 
 I = 1000;
 
-g_4APs = [0:10:100, 200:100:1e4];
-
+% g_4APs = [0:10:100, 200:100:5e4];
+g_4APs = [1480:0.1:1500];
 
 for cont = 1:length(g_4APs)
 
 g_4AP = g_4APs(cont);
 g_L = 1000;
 C = 20;
-g_NaP = 2000;
-g_j = 285;
+g_NaP = 0;
 g_1 = g_L;
 g_2 = g_L;
 E_L = -55; % en mV
@@ -56,8 +55,6 @@ figure(1)
 surf(f,V_eq, modZ)
 set(gca,'xscale','log')
 set(gca,'zscale','log')
-% modZ = abs(Z);
-% argZ = phase(Z);
-% figure(1)
-% semilogx(f,modZ)
-% xlabel('frecuencia (Hz)')
+xlabel('frecuencia (Hz)')
+ylabel('voltaje (mV)')
+title('Impedancia de una neurona')
