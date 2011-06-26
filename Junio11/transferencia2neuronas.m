@@ -1,0 +1,73 @@
+%% Calculo de transferencia teorica entre dos neuronas
+% clear all
+% close all
+% clc
+
+global g_L C g_NaP g_4AP E_L E_Na E_K I g_j
+
+% Parametros
+% g = 1e4; % g = 1/R_in, R_in = 100e6 Ohm
+% C = 200; % C = 20e-3*g = 200 pF
+% g_j = 2850; % g_j = 2850 pS
+
+% f = [0:1:10,20:10:100,200:100:1000];
+f = [0:0.1:10,11:1:100,110:10:1000];
+w = 2*pi*f;
+
+I = 1000;
+
+% g_4APs = [0:10:100, 200:100:5e4];
+% g_4APs = [1480:0.1:1500];
+g_4APs = 40;
+for cont = 1:length(g_4APs)
+
+g_4AP = g_4APs(cont);
+g_L = 1000;
+C = 100;
+g_j = 285;
+g_NaP = 20;
+g_1 = g_L;
+g_2 = g_L;
+E_L = -45; % en mV
+E_Na = 50;
+E_K = -90; % en mV
+
+[V0] = fsolve(@nullclineV1V2,[-45 -45]);
+V01 = V0(1);
+V02 = V0(2);
+V_eq_1(cont) = V01;
+V_eq_2(cont) = V02;
+
+% Curvas
+n_4AP_inf_2 = (1+exp(-(V02+43)/3.9))^(-1);
+dn_4AP_inf_2 = (1/3.9)*n_4AP_inf_2^2*exp(-(V02+43)/3.9);
+tau_4AP = 1;
+
+n_NaP_inf_2 = (1+exp(-(V02+50)/6.4))^(-1);
+dn_NaP_inf_2 = (1/6.4)*n_NaP_inf_2^2*exp(-(V02+50)/6.4);
+
+alpha = g_j;
+beta = -(g_j + g_NaP*(dn_NaP_inf_2*(V02-E_Na)+n_NaP_inf_2)+g_L+g_4AP*n_4AP_inf_2);
+gamma = -g_4AP*(V02-E_K);
+delta = dn_4AP_inf_2;
+
+num = alpha*(1+i*w*tau_4AP);
+den = tau_4AP*C*(i*w).^2+(C-beta*tau_4AP)*i*w-beta-gamma*delta;
+trans = num./den;
+
+H(cont,:) = trans;
+modH(cont,:) = abs(H(cont,:));
+
+end
+
+
+figure(1)
+semilogx(f,modH,'b')
+hold on
+% figure(1)
+% surf(f,V_eq_1, modH)
+% set(gca,'xscale','log')
+% set(gca,'zscale','log')
+% xlabel('frecuencia (Hz)')
+% ylabel('voltaje (mV)')
+% title('Impedancia de una neurona')
